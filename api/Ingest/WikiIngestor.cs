@@ -16,7 +16,7 @@ public class WikiIngestor
     public WikiIngestor(AppDb db)
     {
         _db = db;
-        _http.DefaultRequestHeaders.UserAgent.ParseAdd("MineGuess/1.0 (github.com/esteban-proyecto)"); // polite UA
+        _http.DefaultRequestHeaders.UserAgent.ParseAdd("MineGuess/1.0 (github.com/esteban-proyecto)"); 
     }
 
     public async Task RunAsync(string minVersion = "1.0", string? maxVersion = null)
@@ -45,7 +45,7 @@ public class WikiIngestor
         int order = 10000;
         foreach (var v in versions)
         {
-            if (string.Compare(v.id, "1.0") < 0) continue; // skip pre-1.0
+            if (string.Compare(v.id, "1.0") < 0) continue; 
             var existing = await _db.GameVersions.FirstOrDefaultAsync(x => x.Name == v.id);
             if (existing == null)
             {
@@ -60,12 +60,12 @@ public class WikiIngestor
         await _db.SaveChangesAsync();
     }
 
-    // ---- Fandom wiki (legacy) fallback because minecraft.wiki blocks bots via robots.txt for scraping. ----
-    // We'll use MediaWiki API on minecraft.fandom.com to list category members and parse infoboxes.
+    
+    
 
     private async Task IngestBlocksAsync()
     {
-        // Category:Blocks
+        
         var titles = await GetCategoryMembersAsync("Blocks");
         foreach (var title in titles)
         {
@@ -74,7 +74,7 @@ public class WikiIngestor
             var info = ParseBlockInfobox(html);
             if (info == null) continue;
 
-            // upsert
+            
             var version = await _db.GameVersions.OrderBy(v => v.OrderKey).FirstOrDefaultAsync(v => v.Name == info.AddedIn) 
                           ?? await _db.GameVersions.OrderBy(v => v.OrderKey).FirstAsync();
             var dim = await GetOrAddDimensionAsync(info.Dimension ?? "overworld");
@@ -93,7 +93,7 @@ public class WikiIngestor
 
             if (block.Id == 0) _db.Blocks.Add(block);
 
-            // biomes (best effort: single biome if present)
+            
             if (info.Biomes.Any())
             {
                 foreach (var biomeKey in info.Biomes)
@@ -108,7 +108,7 @@ public class WikiIngestor
 
     private async Task IngestEntitiesAsync()
     {
-        // Category:Mobs
+        
         var titles = await GetCategoryMembersAsync("Mobs");
         foreach (var title in titles)
         {
@@ -138,7 +138,7 @@ public class WikiIngestor
         }
     }
 
-    // ---- Helpers ----
+    
 
     private async Task<Dimension> GetOrAddDimensionAsync(string key)
     {
@@ -203,7 +203,7 @@ public class WikiIngestor
         catch { return null; }
     }
 
-    // naive infobox parsing (best effort)
+    
     private static readonly Regex RxBlockName = new(@"data-source=""name"".*?>(?<v>[^<]+)<", RegexOptions.IgnoreCase|RegexOptions.Singleline);
     private static readonly Regex RxInfoboxBlock = new(@"infobox.*?block", RegexOptions.IgnoreCase);
     private static readonly Regex RxHardness = new(@"data-source=""hardness"".*?>(?<v>[-\d\.]+)", RegexOptions.IgnoreCase|RegexOptions.Singleline);

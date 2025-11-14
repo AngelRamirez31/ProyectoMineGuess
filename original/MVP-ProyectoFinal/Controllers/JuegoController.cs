@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MVP_ProyectoFinal.Models;
 using System.Text.Json;
-using System;
 
 namespace MVP_ProyectoFinal.Controllers
 {
@@ -64,28 +63,6 @@ namespace MVP_ProyectoFinal.Controllers
             var valorVersionIntentada = VersionComparer.ObtenerValor(bloqueIntentado.Version);
             var valorVersionSecreta = VersionComparer.ObtenerValor(bloqueSecreto.Version);
 
-            var longitudNombreIntentado = bloqueIntentado.Nombre.Replace(" ", "").Length;
-            var longitudNombreSecreto = bloqueSecreto.Nombre.Replace(" ", "").Length;
-            var colorLongitud = longitudNombreIntentado == longitudNombreSecreto ? "verde" : "rojo";
-            var hintLongitud = longitudNombreIntentado < longitudNombreSecreto ? "▲" :
-                               (longitudNombreIntentado > longitudNombreSecreto ? "▼" : "");
-
-            var inicialIntentado = string.IsNullOrWhiteSpace(bloqueIntentado.Nombre)
-                ? '?'
-                : char.ToUpper(bloqueIntentado.Nombre.Trim()[0]);
-            var inicialSecreto = string.IsNullOrWhiteSpace(bloqueSecreto.Nombre)
-                ? '?'
-                : char.ToUpper(bloqueSecreto.Nombre.Trim()[0]);
-            var colorInicial = inicialIntentado == inicialSecreto ? "verde" : "rojo";
-
-            var palabrasIntento = string.IsNullOrWhiteSpace(bloqueIntentado.Nombre)
-                ? 0
-                : bloqueIntentado.Nombre.Split(' ', StringSplitOptions.RemoveEmptyEntries).Length;
-            var palabrasSecretas = string.IsNullOrWhiteSpace(bloqueSecreto.Nombre)
-                ? 0
-                : bloqueSecreto.Nombre.Split(' ', StringSplitOptions.RemoveEmptyEntries).Length;
-            var colorPalabras = palabrasIntento == palabrasSecretas ? "verde" : "rojo";
-
             var resultado = new ResultadoIntentoVM
             {
                 NombreBloque = bloqueIntentado.Nombre,
@@ -100,14 +77,7 @@ namespace MVP_ProyectoFinal.Controllers
                 ColorExterior = bloqueIntentado.EsDeExterior == bloqueSecreto.EsDeExterior ? "verde" : "rojo",
                 YearLanzamiento = bloqueIntentado.YearLanzamiento,
                 ColorAnio = bloqueIntentado.YearLanzamiento == bloqueSecreto.YearLanzamiento ? "verde" : "rojo",
-                HintAnio = bloqueIntentado.YearLanzamiento < bloqueSecreto.YearLanzamiento ? "▲" : (bloqueIntentado.YearLanzamiento > bloqueSecreto.YearLanzamiento ? "▼" : ""),
-                LongitudNombre = longitudNombreIntentado,
-                ColorLongitud = colorLongitud,
-                HintLongitud = hintLongitud,
-                Inicial = inicialIntentado.ToString(),
-                ColorInicial = colorInicial,
-                NumeroPalabras = palabrasIntento,
-                ColorNumeroPalabras = colorPalabras
+                HintAnio = bloqueIntentado.YearLanzamiento < bloqueSecreto.YearLanzamiento ? "▲" : (bloqueIntentado.YearLanzamiento > bloqueSecreto.YearLanzamiento ? "▼" : "")
             };
 
             todosLosIntentos.Add(resultado);

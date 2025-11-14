@@ -61,14 +61,20 @@ namespace MVP_ProyectoFinal.Models
         {
             if (_useApi && !string.IsNullOrWhiteSpace(_apiBaseUrl))
             {
-                try {
+                try
+                {
                     if (_cacheApi is null)
                     {
                         var cli = new Services.ApiClientOriginal(_apiBaseUrl!);
                         _cacheApi = cli.GetBlocksAsync().GetAwaiter().GetResult();
                     }
-                    if (_cacheApi is not null && _cacheApi.Count > 0) return _cacheApi;
-                } catch {
+                    if (_cacheApi is not null && _cacheApi.Count > 0)
+                    {
+                        return _cacheApi;
+                    }
+                }
+                catch
+                {
                     _useApi = false;
                     _cacheApi = new List<Bloque>();
                 }

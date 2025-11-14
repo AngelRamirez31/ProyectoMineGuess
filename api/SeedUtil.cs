@@ -11,7 +11,7 @@ public static class SeedUtil
     {
         if (await db.GameVersions.AnyAsync()) return;
 
-        // Minimal seed: versions, dimensions, biomes, a few blocks/entities
+        
         var versions = new[] {
             new GameVersion { Name = "1.0", Channel="release", OrderKey = 10000 }
         };
@@ -29,7 +29,7 @@ public static class SeedUtil
 
         await db.SaveChangesAsync();
 
-        // Load JSON seeds if present
+        
         var seedPath = Path.Combine(env.ContentRootPath, "seed");
         Directory.CreateDirectory(seedPath);
         var blocksFile = Path.Combine(seedPath, "blocks.json");

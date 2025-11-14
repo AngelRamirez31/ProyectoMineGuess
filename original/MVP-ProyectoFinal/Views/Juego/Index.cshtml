@@ -76,9 +76,6 @@
                     <th>Destructible</th>
                     <th>Exterior</th>
                     <th>Año</th>
-                    <th>Longitud nombre</th>
-                    <th>Inicial</th>
-                    <th># Palabras</th>
                 </tr>
             </thead>
             <tbody>
@@ -91,9 +88,6 @@
                         <td class="@intento.ColorDestructible">@intento.EsDestructible</td>
                         <td class="@intento.ColorExterior">@intento.EsDeExterior</td>
                         <td class="@intento.ColorAnio">@intento.YearLanzamiento @intento.HintAnio</td>
-                        <td class="@intento.ColorLongitud">@intento.LongitudNombre @intento.HintLongitud</td>
-                        <td class="@intento.ColorInicial">@intento.Inicial</td>
-                        <td class="@intento.ColorNumeroPalabras">@intento.NumeroPalabras</td>
                     </tr>
                 }
             </tbody>
@@ -137,6 +131,10 @@ input.addEventListener('keydown', function (e) {
             e.preventDefault();
             input.value = first.textContent;
             container.innerHTML = '';
+            const form = input.closest('form');
+            if (form) {
+                form.submit();
+            }
         }
     }
 });

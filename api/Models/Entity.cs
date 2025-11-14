@@ -4,9 +4,9 @@ namespace MineGuess.Api.Models;
 public class Entity
 {
     public int Id { get; set; }
-    public string Key { get; set; } = "";    // zombie
-    public string Name { get; set; } = "";   // Zombie
-    public string? Kind { get; set; }        // hostile|passive|neutral|boss
+    public string Key { get; set; } = "";    
+    public string Name { get; set; } = "";   
+    public string? Kind { get; set; }        
     public int? Health { get; set; }
     public int? Attack { get; set; }
     public string? SpawnRulesJson { get; set; }

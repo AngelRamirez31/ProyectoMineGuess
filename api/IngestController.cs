@@ -1,6 +1,6 @@
-
+using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using MineGuess.Api.Data;
 using MineGuess.Api.Ingestion;
 
@@ -11,7 +11,7 @@ namespace MineGuess.Api;
 public class IngestController : ControllerBase
 {
     [HttpPost("full")]
-    public async Task<IActionResult> Full([FromServices] AppDb db, [FromQuery] string from = "1.0.0", [FromQuery] string to = "latest", CancellationToken ct = default)
+    public async Task<IActionResult> Full([FromServices] AppDb db, [FromQuery] string from = "1.0", [FromQuery] string to = "latest", CancellationToken ct = default)
     {
         var importer = new FullImporter();
         await importer.RunAsync(db, from, to, ct);

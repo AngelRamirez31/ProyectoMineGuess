@@ -15,13 +15,5 @@
         public string ColorAnio { get; set; } = string.Empty;
         public string HintVersion { get; set; } = string.Empty;
         public string HintAnio { get; set; } = string.Empty;
-
-        public int LongitudNombre { get; set; }
-        public string ColorLongitud { get; set; } = string.Empty;
-        public string HintLongitud { get; set; } = string.Empty;
-        public string Inicial { get; set; } = string.Empty;
-        public string ColorInicial { get; set; } = string.Empty;
-        public int NumeroPalabras { get; set; }
-        public string ColorNumeroPalabras { get; set; } = string.Empty;
     }
 }

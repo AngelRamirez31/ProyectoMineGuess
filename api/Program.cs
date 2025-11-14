@@ -24,7 +24,7 @@ builder.Services.AddDbContextPool<AppDb>(opt =>
 });
 var app = builder.Build();
 
-// Optional auto-ingest on startup (set env var MINEGUESS_AUTO_INGEST=1)
+
 if (Environment.GetEnvironmentVariable("MINEGUESS_AUTO_INGEST") == "1")
 {
     using var scope = app.Services.CreateScope();
@@ -38,7 +38,7 @@ app.UseSwagger();
 app.UseSwaggerUI();
 app.UseResponseCaching();
 
-// Ensure DB & seed
+
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDb>();
@@ -46,7 +46,7 @@ using (var scope = app.Services.CreateScope())
     Directory.CreateDirectory(Path.Combine(env.ContentRootPath, "App_Data"));
     db.Database.EnsureCreated();
     await SeedUtil.SeedAsync(db, env);
-// Auto-ingest wiki once if DB is mostly empty
+
 try
 {
     var blocksCount = await db.Blocks.CountAsync();
@@ -57,19 +57,19 @@ try
         await ing.RunAsync("1.0");
     }
 }
-catch { /* ignore network errors on startup */ }
+catch {  }
 }
 
 app.MapGet("/", () => Results.Redirect("/swagger"));
 
-// Versions
+
 app.MapGet("/api/v1/versions", async (AppDb db) =>
 {
     var list = await db.GameVersions.OrderBy(v => v.OrderKey).ToListAsync();
     return Results.Ok(list);
 });
 
-// Blocks list
+
 app.MapGet("/api/v1/blocks", async (AppDb db, string? search, string? biome, string? dimension, string? max_version, int page = 1, int page_size = 20) =>
 {
     var q = db.Blocks
@@ -115,7 +115,7 @@ app.MapGet("/api/v1/blocks/{key}", async (AppDb db, string key) =>
     return b is null ? Results.NotFound() : Results.Ok(b);
 });
 
-// Entities
+
 app.MapGet("/api/v1/entities", async (AppDb db, string? kind, string? dimension, string? max_version, int page = 1, int page_size = 20) =>
 {
     var q = db.Entities
@@ -154,7 +154,7 @@ app.MapGet("/api/v1/entities/{key}", async (AppDb db, string key) =>
     return e is null ? Results.NotFound() : Results.Ok(e);
 });
 
-// Suggest (autocomplete)
+
 app.MapGet("/api/v1/suggest", async (AppDb db, string type, string q) =>
 {
     q = q.Trim();
@@ -180,7 +180,7 @@ app.MapGet("/api/v1/suggest", async (AppDb db, string type, string q) =>
     return Results.BadRequest();
 });
 
-// Random
+
 app.MapGet("/api/v1/random", async (AppDb db, string type, string? max_version) =>
 {
     if (type == "block")
@@ -202,7 +202,7 @@ app.MapGet("/api/v1/random", async (AppDb db, string type, string? max_version) 
     return Results.BadRequest();
 });
 
-// Compare
+
 app.MapPost("/api/v1/compare", async (AppDb db, CompareReq req) =>
 {
     if (req.Type == "block")
@@ -245,7 +245,7 @@ app.MapPost("/api/v1/compare", async (AppDb db, CompareReq req) =>
 
 
 
-// Ingest from wiki (best-effort). No auth for demo; protect in production.
+
 app.MapPost("/api/v1/ingest/wiki", async (AppDb db) =>
 {
     var ing = new MineGuess.Api.Ingest.WikiIngestor(db);
