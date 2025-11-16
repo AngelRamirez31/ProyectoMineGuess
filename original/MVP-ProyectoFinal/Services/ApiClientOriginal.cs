@@ -19,6 +19,177 @@ public class ApiClientOriginal
         _base = baseUrl.TrimEnd('/');
     }
 
+        private static int ComputeEntityHealth(string? key, string? kind, int? health)
+    {
+        if (health.HasValue && health.Value > 0) return health.Value;
+
+        var k = (key ?? string.Empty).ToLowerInvariant();
+
+        switch (k)
+        {
+            case "pig": return 10;
+            case "sheep": return 8;
+            case "cow": return 10;
+            case "chicken": return 4;
+            case "squid": return 10;
+            case "mooshroom": return 10;
+            case "villager": return 20;
+            case "snow_golem": return 4;
+            case "wolf": return 16;
+            case "enderman": return 40;
+            case "zombie_pigman": return 20;
+            case "spider": return 16;
+            case "zombie": return 20;
+            case "skeleton": return 20;
+            case "creeper": return 20;
+            case "cave_spider": return 12;
+            case "slime": return 16;
+            case "ghast": return 20;
+            case "blaze": return 20;
+            case "magma_cube": return 16;
+            case "silverfish": return 8;
+            case "ender_dragon": return 200;
+            case "wither": return 300;
+            case "wither_skeleton": return 20;
+            case "witch": return 26;
+            case "guardian": return 30;
+            case "elder_guardian": return 80;
+            case "iron_golem": return 100;
+            case "shulker": return 30;
+            case "husk": return 20;
+            case "stray": return 20;
+            case "drowned": return 20;
+            case "phantom": return 20;
+            case "llama": return 20;
+            case "panda": return 20;
+            case "fox": return 10;
+            case "bee": return 10;
+            case "axolotl": return 14;
+            case "goat": return 20;
+            case "frog": return 10;
+            case "tadpole": return 6;
+            case "warden": return 500;
+            case "allay": return 20;
+            case "glow_squid": return 10;
+            case "piglin": return 16;
+            case "piglin_brute": return 50;
+            case "hoglin": return 40;
+            case "zoglin": return 40;
+            case "strider": return 20;
+            case "zombified_piglin": return 20;
+            case "dolphin": return 10;
+            case "turtle": return 30;
+            case "parrot": return 6;
+            case "trader_llama": return 20;
+            case "wandering_trader": return 20;
+            case "ravager": return 100;
+            case "pillager": return 24;
+            case "vindicator": return 24;
+            case "evoker": return 24;
+        }
+
+        var tipo = (kind ?? string.Empty).ToLowerInvariant();
+        if (tipo == "boss") return 300;
+        if (tipo == "hostile") return 20;
+        if (tipo == "neutral") return 20;
+        if (tipo == "passive") return 10;
+
+        return 10;
+    }
+
+
+    private static int ComputeEntityAttack(string? key, string? kind, int? attack)
+    {
+        if (attack.HasValue && attack.Value > 0) return attack.Value;
+
+        var k = (key ?? string.Empty).ToLowerInvariant();
+
+        switch (k)
+        {
+            case "bee": return 4;
+            case "blaze": return 12;
+            case "cave_spider": return 4;
+            case "creeper": return 86;
+            case "dolphin": return 6;
+            case "drowned": return 6;
+            case "elder_guardian": return 16;
+            case "ender_dragon": return 20;
+            case "enderman": return 14;
+            case "evoker": return 12;
+            case "ghast": return 24;
+            case "goat": return 4;
+            case "guardian": return 12;
+            case "hoglin": return 16;
+            case "husk": return 6;
+            case "iron_golem": return 15;
+            case "magma_cube": return 12;
+            case "phantom": return 6;
+            case "piglin": return 16;
+            case "piglin_brute": return 26;
+            case "pillager": return 8;
+            case "ravager": return 24;
+            case "shulker": return 8;
+            case "silverfish": return 2;
+            case "skeleton": return 8;
+            case "slime": return 8;
+            case "spider": return 6;
+            case "stray": return 8;
+            case "vindicator": return 26;
+            case "wandering_trader": return 0;
+            case "warden": return 60;
+            case "witch": return 12;
+            case "wither": return 16;
+            case "wither_skeleton": return 16;
+            case "wolf": return 8;
+            case "zoglin": return 16;
+            case "zombie": return 6;
+            case "zombie_pigman": return 16;
+            case "zombified_piglin": return 16;
+        }
+
+        var tipo = (kind ?? string.Empty).ToLowerInvariant();
+        if (tipo == "boss") return 20;
+        if (tipo == "hostile") return 6;
+        if (tipo == "neutral") return 4;
+
+        return 0;
+    }
+
+    private static int ComputeEntityYear(string? key, string? addedInVersion)
+    {
+        var k = (key ?? string.Empty).ToLowerInvariant();
+
+        switch (k)
+        {
+            case "wither":
+            case "wither_skeleton":
+            case "witch":
+                return 2012;
+            case "iron_golem":
+                return 2012;
+            case "guardian":
+            case "elder_guardian":
+                return 2014;
+            case "shulker":
+                return 2016;
+            case "husk":
+            case "stray":
+                return 2016;
+            case "drowned":
+            case "phantom":
+                return 2018;
+            case "llama":
+                return 2016;
+            case "panda":
+            case "fox":
+                return 2019;
+            case "bee":
+                return 2019;
+        }
+
+        return YearFromVersion(addedInVersion);
+    }
+
     private static int YearFromVersion(string? v)
     {
         if (string.IsNullOrWhiteSpace(v)) return 0;
@@ -116,15 +287,22 @@ public class ApiClientOriginal
         var url = $"{_base}/api/v1/entities?page=1&page_size=500";
         var doc = await _http.GetFromJsonAsync<EntitiesList>(url);
         var items = doc?.items ?? new List<EntityDto>();
-        return items.Select(e => new Entidad
+        return items.Select(e =>
         {
-            Id = 0,
-            Nombre = e.Name ?? e.Key ?? string.Empty,
-            Tipo = e.Kind ?? string.Empty,
-            Vida = e.Health ?? 0,
-            Ataque = e.Attack ?? 0,
-            Dimension = e.Dimensions?.FirstOrDefault() ?? string.Empty,
-            YearLanzamiento = YearFromVersion(e.AddedInVersion)
+            var tipo = e.Kind ?? string.Empty;
+            var vida = ComputeEntityHealth(e.Key, tipo, e.Health);
+            var ataque = ComputeEntityAttack(e.Key, tipo, e.Attack);
+
+            return new Entidad
+            {
+                Id = 0,
+                Nombre = e.Name ?? e.Key ?? string.Empty,
+                Tipo = tipo,
+                Vida = vida,
+                Ataque = ataque,
+                Dimension = e.Dimensions?.FirstOrDefault() ?? string.Empty,
+                YearLanzamiento = ComputeEntityYear(e.Key, e.AddedInVersion)
+            };
         }).ToList();
     }
 
