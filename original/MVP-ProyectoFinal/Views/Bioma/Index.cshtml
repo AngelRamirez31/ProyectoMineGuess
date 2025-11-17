@@ -1,6 +1,6 @@
-﻿@model List<MVP_ProyectoFinal.Models.ResultadoIntentoEntidadVM>
+@model List<MVP_ProyectoFinal.Models.ResultadoIntentoBiomaVM>
 @{
-    ViewData["Title"] = "Guess the Entity";
+    ViewData["Title"] = "Guess the Biome";
 }
 
 <style>
@@ -17,12 +17,11 @@
     }
 
     #sugerencias-container {
-        border: 1px solid #ccc;
-        border-top: none;
-        max-height: 150px;
-        overflow-y: auto;
         position: absolute;
         background-color: white;
+        border: 1px solid #ccc;
+        max-height: 200px;
+        overflow-y: auto;
         z-index: 1000;
         text-align: left;
     }
@@ -38,29 +37,29 @@
 </style>
 
 <div class="text-center">
-    <h1 class="display-4">Guess the Entity</h1>
+    <h1 class="display-4">Guess the Biome</h1>
     <div class="mb-4">
-        <a asp-controller="Entidad" asp-action="Reiniciar" class="btn btn-outline-secondary btn-sm">Restart Game</a>
+        <a asp-controller="Bioma" asp-action="Reiniciar" class="btn btn-outline-secondary btn-sm">Restart Game</a>
         <a asp-controller="Juego" asp-action="Index" class="btn btn-outline-primary btn-sm">Switch to Blocks</a>
-        <a asp-controller="Bioma" asp-action="Index" class="btn btn-outline-warning btn-sm">Switch to Biomes</a>
+        <a asp-controller="Entidad" asp-action="Index" class="btn btn-outline-success btn-sm">Switch to Entities</a>
     </div>
 
     @if (TempData["MensajeVictoria"] != null)
     {
         <h2 class="alert alert-success">@TempData["MensajeVictoria"]</h2>
-        <a asp-controller="Entidad" asp-action="Reiniciar" class="btn btn-primary btn-lg mt-3">Play Again</a>
+        <a asp-controller="Bioma" asp-action="Reiniciar" class="btn btn-primary btn-lg mt-3">Play Again</a>
     }
     else
     {
-        <form asp-controller="Entidad" asp-action="Adivinar" method="post" class="mb-3">
+        <form asp-controller="Bioma" asp-action="Adivinar" method="post" class="mb-3">
             <div style="position: relative; display: inline-block;">
-                <input type="text" name="nombreEntidad" id="nombreEntidadInput" placeholder="Type an entity..." required autofocus
+                <input type="text" name="nombreBioma" id="nombreBiomaInput" placeholder="Type a biome..." required autofocus
                        class="form-control" style="width: auto; vertical-align: middle;" autocomplete="off" />
                 <div id="sugerencias-container"></div>
             </div>
             <button type="submit" class="btn btn-primary" style="vertical-align: middle;">Guess</button>
         </form>
-        <form asp-controller="Entidad" asp-action="GiveUp" method="post" class="mb-3">
+        <form asp-controller="Bioma" asp-action="GiveUp" method="post" class="mb-3">
             <button type="submit" class="btn btn-outline-danger btn-sm">Give Up</button>
         </form>
 
@@ -75,28 +74,28 @@
         <table class="table table-bordered mt-4">
             <thead class="table-dark">
                 <tr>
-                    <th>Entity</th>
+                    <th>Biome</th>
                     <th>Name Length</th>
                     <th>Initial</th>
-                    <th>Type</th>
-                    <th>Health</th>
-                    <th>Attack</th>
+                    <th>Climate</th>
+                    <th>Precipitation</th>
                     <th>Dimension</th>
+                    <th>Height</th>
                     <th>Year</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (var intento in Model)
+                @foreach (var attempt in Model)
                 {
                     <tr>
-                        <td>@intento.NombreEntidad</td>
-                        <td class="@intento.ColorLongitudNombre">@intento.LongitudNombre @intento.HintLongitudNombre</td>
-                        <td class="@intento.ColorCoincideInicial">@intento.CoincideInicial</td>
-                        <td class="@intento.ColorTipo">@intento.Tipo</td>
-                        <td class="@intento.ColorVida">@intento.Vida @intento.HintVida</td>
-                        <td class="@intento.ColorAtaque">@intento.Ataque @intento.HintAtaque</td>
-                        <td class="@intento.ColorDimension">@intento.Dimension</td>
-                        <td class="@intento.ColorAnio">@intento.YearLanzamiento @intento.HintAnio</td>
+                        <td>@attempt.NombreBioma</td>
+                        <td class="@attempt.ColorLongitudNombre">@attempt.LongitudNombre @attempt.HintLongitudNombre</td>
+                        <td class="@attempt.ColorCoincideInicial">@attempt.CoincideInicial</td>
+                        <td class="@attempt.ColorClima">@attempt.Clima @attempt.HintClima</td>
+                        <td class="@attempt.ColorPrecipitacion">@attempt.Precipitacion @attempt.HintPrecipitacion</td>
+                        <td class="@attempt.ColorDimension">@attempt.Dimension</td>
+                        <td class="@attempt.ColorAltura">@attempt.Altura @attempt.HintAltura</td>
+                        <td class="@attempt.ColorAnio">@attempt.YearLanzamiento (@attempt.VersionLanzamiento) @attempt.HintAnio</td>
                     </tr>
                 }
             </tbody>
@@ -107,7 +106,7 @@
 @section Scripts {
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const input = document.getElementById('nombreEntidadInput');
+            const input = document.getElementById('nombreBiomaInput');
             const container = document.getElementById('sugerencias-container');
             if (input && container) {
                 container.style.width = input.offsetWidth + 'px';
@@ -116,16 +115,16 @@
                     container.style.width = input.offsetWidth + 'px';
                     if (term.length < 1) { container.innerHTML = ''; return; }
                     try {
-                        const response = await fetch(`/Entidad/SugerirEntidades?term=${encodeURIComponent(term)}`);
+                        const response = await fetch(`/Bioma/SugerirBiomas?term=${encodeURIComponent(term)}`);
                         if (!response.ok) return;
-                        const sugerencias = await response.json();
+                        const suggestions = await response.json();
                         container.innerHTML = '';
-                        sugerencias.forEach(sugerencia => {
+                        suggestions.forEach(s => {
                             const div = document.createElement('div');
-                            div.textContent = sugerencia;
+                            div.textContent = s;
                             div.classList.add('sugerencia-item');
                             div.addEventListener('click', function () {
-                                input.value = sugerencia;
+                                input.value = s;
                                 container.innerHTML = '';
                                 input.focus();
                             });
@@ -148,7 +147,9 @@
                     }
                 });
                 document.addEventListener('click', function (e) {
-                    if (e.target !== input) { container.innerHTML = ''; }
+                    if (e.target !== input) {
+                        container.innerHTML = '';
+                    }
                 });
             }
         });

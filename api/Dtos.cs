@@ -8,6 +8,10 @@ public record BlockSeed(
     bool? hasGravity, int? lightLevel, bool isBreakable, string? bestTool,
     string dimension, string addedIn, string[]? biomes);
 
+public record BiomeSeed(
+    string key, string name, string climate, string precipitation,
+    string dimension, string height, int year, string addedIn);
+
 public record EntitySeed(
     string key, string name, string kind, int? health, int? attack, string? spawnRules,
     string addedIn, string[]? dimensions);

@@ -306,8 +306,30 @@ public class ApiClientOriginal
         }).ToList();
     }
 
-    private record BlocksList(List<BlockDto> items, int total);
+    
+    public async Task<List<Bioma>> GetBiomesAsync()
+    {
+        var url = $"{_base}/api/v1/biomes?page=1&page_size=500";
+        var doc = await _http.GetFromJsonAsync<BiomesList>(url);
+        var items = doc?.items ?? new List<BiomeDto>();
+        return items.Select(b => new Bioma
+        {
+            Id = 0,
+            Nombre = b.Name ?? b.Key ?? string.Empty,
+            Clima = b.Climate ?? string.Empty,
+            Precipitacion = b.Precipitation ?? string.Empty,
+            Dimension = b.Dimension ?? string.Empty,
+            Altura = b.Height ?? string.Empty,
+            YearLanzamiento = b.ReleaseYear ?? 0,
+            VersionLanzamiento = b.AddedInVersion ?? string.Empty
+        }).ToList();
+    }
+
+private record BlocksList(List<BlockDto> items, int total);
     private record BlockDto(string? Key, string? Name, string? Category, bool? IsBreakable, string? Dimension, List<string>? Biomes, string? AddedInVersion);
     private record EntitiesList(List<EntityDto> items, int total);
     private record EntityDto(string? Key, string? Name, string? Kind, int? Health, int? Attack, List<string>? Dimensions, string? AddedInVersion);
+    private record BiomesList(List<BiomeDto> items, int total);
+    private record BiomeDto(string? Key, string? Name, string? Climate, string? Precipitation, string? Dimension, string? Height, int? ReleaseYear, string? AddedInVersion);
+
 }

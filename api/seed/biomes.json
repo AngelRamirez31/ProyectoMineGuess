@@ -1,0 +1,602 @@
+[
+  {
+    "key": "plains",
+    "name": "Plains",
+    "climate": "Temperate",
+    "precipitation": "Rain",
+    "dimension": "Overworld",
+    "height": "Low",
+    "year": 2011,
+    "addedIn": "1.0"
+  },
+  {
+    "key": "sunflower_plains",
+    "name": "Sunflower Plains",
+    "climate": "Temperate",
+    "precipitation": "Rain",
+    "dimension": "Overworld",
+    "height": "Low",
+    "year": 2013,
+    "addedIn": "1.7"
+  },
+  {
+    "key": "forest",
+    "name": "Forest",
+    "climate": "Temperate",
+    "precipitation": "Rain",
+    "dimension": "Overworld",
+    "height": "Medium",
+    "year": 2011,
+    "addedIn": "1.0"
+  },
+  {
+    "key": "flower_forest",
+    "name": "Flower Forest",
+    "climate": "Temperate",
+    "precipitation": "Rain",
+    "dimension": "Overworld",
+    "height": "Medium",
+    "year": 2013,
+    "addedIn": "1.7"
+  },
+  {
+    "key": "birch_forest",
+    "name": "Birch Forest",
+    "climate": "Temperate",
+    "precipitation": "Rain",
+    "dimension": "Overworld",
+    "height": "Medium",
+    "year": 2013,
+    "addedIn": "1.7"
+  },
+  {
+    "key": "dark_forest",
+    "name": "Dark Forest",
+    "climate": "Temperate",
+    "precipitation": "Rain",
+    "dimension": "Overworld",
+    "height": "Medium",
+    "year": 2014,
+    "addedIn": "1.7"
+  },
+  {
+    "key": "jungle",
+    "name": "Jungle",
+    "climate": "Warm",
+    "precipitation": "Rain",
+    "dimension": "Overworld",
+    "height": "Medium",
+    "year": 2012,
+    "addedIn": "1.2.1"
+  },
+  {
+    "key": "bamboo_jungle",
+    "name": "Bamboo Jungle",
+    "climate": "Warm",
+    "precipitation": "Rain",
+    "dimension": "Overworld",
+    "height": "Medium",
+    "year": 2019,
+    "addedIn": "1.0"
+  },
+  {
+    "key": "savanna",
+    "name": "Savanna",
+    "climate": "Warm",
+    "precipitation": "Rain",
+    "dimension": "Overworld",
+    "height": "Low",
+    "year": 2013,
+    "addedIn": "1.7"
+  },
+  {
+    "key": "desert",
+    "name": "Desert",
+    "climate": "Warm",
+    "precipitation": "None",
+    "dimension": "Overworld",
+    "height": "Low",
+    "year": 2011,
+    "addedIn": "1.0"
+  },
+  {
+    "key": "badlands",
+    "name": "Badlands",
+    "climate": "Hot",
+    "precipitation": "None",
+    "dimension": "Overworld",
+    "height": "Medium",
+    "year": 2013,
+    "addedIn": "1.7"
+  },
+  {
+    "key": "wooded_badlands",
+    "name": "Wooded Badlands",
+    "climate": "Hot",
+    "precipitation": "None",
+    "dimension": "Overworld",
+    "height": "Medium",
+    "year": 2013,
+    "addedIn": "1.7"
+  },
+  {
+    "key": "eroded_badlands",
+    "name": "Eroded Badlands",
+    "climate": "Hot",
+    "precipitation": "None",
+    "dimension": "Overworld",
+    "height": "High",
+    "year": 2013,
+    "addedIn": "1.7"
+  },
+  {
+    "key": "swamp",
+    "name": "Swamp",
+    "climate": "Temperate",
+    "precipitation": "Rain",
+    "dimension": "Overworld",
+    "height": "Low",
+    "year": 2011,
+    "addedIn": "1.0"
+  },
+  {
+    "key": "mangrove_swamp",
+    "name": "Mangrove Swamp",
+    "climate": "Warm",
+    "precipitation": "Rain",
+    "dimension": "Overworld",
+    "height": "Low",
+    "year": 2022,
+    "addedIn": "1.19"
+  },
+  {
+    "key": "taiga",
+    "name": "Taiga",
+    "climate": "Cold",
+    "precipitation": "Rain",
+    "dimension": "Overworld",
+    "height": "Medium",
+    "year": 2011,
+    "addedIn": "1.0"
+  },
+  {
+    "key": "snowy_taiga",
+    "name": "Snowy Taiga",
+    "climate": "Cold",
+    "precipitation": "Snow",
+    "dimension": "Overworld",
+    "height": "Medium",
+    "year": 2013,
+    "addedIn": "1.7"
+  },
+  {
+    "key": "mountains",
+    "name": "Mountains",
+    "climate": "Cold",
+    "precipitation": "Snow",
+    "dimension": "Overworld",
+    "height": "High",
+    "year": 2011,
+    "addedIn": "1.0"
+  },
+  {
+    "key": "jagged_peaks",
+    "name": "Jagged Peaks",
+    "climate": "Cold",
+    "precipitation": "Snow",
+    "dimension": "Overworld",
+    "height": "Extreme",
+    "year": 2021,
+    "addedIn": "1.18"
+  },
+  {
+    "key": "frozen_peaks",
+    "name": "Frozen Peaks",
+    "climate": "Cold",
+    "precipitation": "Snow",
+    "dimension": "Overworld",
+    "height": "High",
+    "year": 2021,
+    "addedIn": "1.18"
+  },
+  {
+    "key": "stony_peaks",
+    "name": "Stony Peaks",
+    "climate": "Cold",
+    "precipitation": "Snow",
+    "dimension": "Overworld",
+    "height": "High",
+    "year": 2021,
+    "addedIn": "1.18"
+  },
+  {
+    "key": "meadow",
+    "name": "Meadow",
+    "climate": "Cold",
+    "precipitation": "Rain",
+    "dimension": "Overworld",
+    "height": "High",
+    "year": 2021,
+    "addedIn": "1.18"
+  },
+  {
+    "key": "cherry_grove",
+    "name": "Cherry Grove",
+    "climate": "Temperate",
+    "precipitation": "Rain",
+    "dimension": "Overworld",
+    "height": "High",
+    "year": 2023,
+    "addedIn": "1.20"
+  },
+  {
+    "key": "lush_caves",
+    "name": "Lush Caves",
+    "climate": "Temperate",
+    "precipitation": "Rain",
+    "dimension": "Overworld",
+    "height": "Low",
+    "year": 2021,
+    "addedIn": "1.18"
+  },
+  {
+    "key": "dripstone_caves",
+    "name": "Dripstone Caves",
+    "climate": "Temperate",
+    "precipitation": "Rain",
+    "dimension": "Overworld",
+    "height": "Low",
+    "year": 2021,
+    "addedIn": "1.18"
+  },
+  {
+    "key": "ocean",
+    "name": "Ocean",
+    "climate": "Temperate",
+    "precipitation": "Rain",
+    "dimension": "Overworld",
+    "height": "Low",
+    "year": 2011,
+    "addedIn": "1.0"
+  },
+  {
+    "key": "frozen_ocean",
+    "name": "Frozen Ocean",
+    "climate": "Cold",
+    "precipitation": "Snow",
+    "dimension": "Overworld",
+    "height": "Low",
+    "year": 2018,
+    "addedIn": "1.13"
+  },
+  {
+    "key": "soul_sand_valley",
+    "name": "Soul Sand Valley",
+    "climate": "Hot",
+    "precipitation": "None",
+    "dimension": "Nether",
+    "height": "Medium",
+    "year": 2020,
+    "addedIn": "1.16"
+  },
+  {
+    "key": "basalt_deltas",
+    "name": "Basalt Deltas",
+    "climate": "Hot",
+    "precipitation": "None",
+    "dimension": "Nether",
+    "height": "High",
+    "year": 2020,
+    "addedIn": "1.16"
+  },
+  {
+    "key": "crimson_forest",
+    "name": "Crimson Forest",
+    "climate": "Hot",
+    "precipitation": "None",
+    "dimension": "Nether",
+    "height": "Medium",
+    "year": 2020,
+    "addedIn": "1.16"
+  },
+  {
+    "key": "warped_forest",
+    "name": "Warped Forest",
+    "climate": "Hot",
+    "precipitation": "None",
+    "dimension": "Nether",
+    "height": "Medium",
+    "year": 2020,
+    "addedIn": "1.16"
+  },
+  {
+    "key": "end_highlands",
+    "name": "End Highlands",
+    "climate": "Cold",
+    "precipitation": "None",
+    "dimension": "End",
+    "height": "High",
+    "year": 2011,
+    "addedIn": "1.0"
+  },
+  {
+    "key": "deep_dark",
+    "name": "Deep Dark",
+    "climate": "Cold",
+    "precipitation": "None",
+    "dimension": "Overworld",
+    "height": "Low",
+    "year": 2022,
+    "addedIn": "1.19"
+  },
+  {
+    "key": "mushroom_fields",
+    "name": "Mushroom Fields",
+    "climate": "Temperate",
+    "precipitation": "None",
+    "dimension": "Overworld",
+    "height": "Low",
+    "year": 2011,
+    "addedIn": "1.0"
+  },
+  {
+    "key": "snowy_plains",
+    "name": "Snowy Plains",
+    "climate": "Cold",
+    "precipitation": "Snow",
+    "dimension": "Overworld",
+    "height": "Low",
+    "year": 2011,
+    "addedIn": "1.0"
+  },
+  {
+    "key": "ice_spikes",
+    "name": "Ice Spikes",
+    "climate": "Cold",
+    "precipitation": "Snow",
+    "dimension": "Overworld",
+    "height": "High",
+    "year": 2013,
+    "addedIn": "1.7"
+  },
+  {
+    "key": "windswept_hills",
+    "name": "Windswept Hills",
+    "climate": "Cold",
+    "precipitation": "Rain",
+    "dimension": "Overworld",
+    "height": "High",
+    "year": 2011,
+    "addedIn": "1.0"
+  },
+  {
+    "key": "windswept_forest",
+    "name": "Windswept Forest",
+    "climate": "Cold",
+    "precipitation": "Rain",
+    "dimension": "Overworld",
+    "height": "High",
+    "year": 2011,
+    "addedIn": "1.0"
+  },
+  {
+    "key": "windswept_gravelly_hills",
+    "name": "Windswept Gravelly Hills",
+    "climate": "Cold",
+    "precipitation": "Rain",
+    "dimension": "Overworld",
+    "height": "High",
+    "year": 2011,
+    "addedIn": "1.0"
+  },
+  {
+    "key": "windswept_savanna",
+    "name": "Windswept Savanna",
+    "climate": "Warm",
+    "precipitation": "Rain",
+    "dimension": "Overworld",
+    "height": "High",
+    "year": 2013,
+    "addedIn": "1.7"
+  },
+  {
+    "key": "old_growth_pine_taiga",
+    "name": "Old Growth Pine Taiga",
+    "climate": "Cold",
+    "precipitation": "Rain",
+    "dimension": "Overworld",
+    "height": "Medium",
+    "year": 2013,
+    "addedIn": "1.7"
+  },
+  {
+    "key": "old_growth_spruce_taiga",
+    "name": "Old Growth Spruce Taiga",
+    "climate": "Cold",
+    "precipitation": "Rain",
+    "dimension": "Overworld",
+    "height": "Medium",
+    "year": 2013,
+    "addedIn": "1.7"
+  },
+  {
+    "key": "old_growth_birch_forest",
+    "name": "Old Growth Birch Forest",
+    "climate": "Temperate",
+    "precipitation": "Rain",
+    "dimension": "Overworld",
+    "height": "Medium",
+    "year": 2013,
+    "addedIn": "1.7"
+  },
+  {
+    "key": "sparse_jungle",
+    "name": "Sparse Jungle",
+    "climate": "Warm",
+    "precipitation": "Rain",
+    "dimension": "Overworld",
+    "height": "Medium",
+    "year": 2013,
+    "addedIn": "1.7"
+  },
+  {
+    "key": "stony_shore",
+    "name": "Stony Shore",
+    "climate": "Temperate",
+    "precipitation": "Rain",
+    "dimension": "Overworld",
+    "height": "Low",
+    "year": 2011,
+    "addedIn": "1.0"
+  },
+  {
+    "key": "beach",
+    "name": "Beach",
+    "climate": "Temperate",
+    "precipitation": "Rain",
+    "dimension": "Overworld",
+    "height": "Low",
+    "year": 2011,
+    "addedIn": "1.0"
+  },
+  {
+    "key": "snowy_beach",
+    "name": "Snowy Beach",
+    "climate": "Cold",
+    "precipitation": "Snow",
+    "dimension": "Overworld",
+    "height": "Low",
+    "year": 2011,
+    "addedIn": "1.0"
+  },
+  {
+    "key": "river",
+    "name": "River",
+    "climate": "Temperate",
+    "precipitation": "Rain",
+    "dimension": "Overworld",
+    "height": "Low",
+    "year": 2011,
+    "addedIn": "1.0"
+  },
+  {
+    "key": "frozen_river",
+    "name": "Frozen River",
+    "climate": "Cold",
+    "precipitation": "Snow",
+    "dimension": "Overworld",
+    "height": "Low",
+    "year": 2011,
+    "addedIn": "1.0"
+  },
+  {
+    "key": "warm_ocean",
+    "name": "Warm Ocean",
+    "climate": "Warm",
+    "precipitation": "Rain",
+    "dimension": "Overworld",
+    "height": "Low",
+    "year": 2018,
+    "addedIn": "1.13"
+  },
+  {
+    "key": "lukewarm_ocean",
+    "name": "Lukewarm Ocean",
+    "climate": "Warm",
+    "precipitation": "Rain",
+    "dimension": "Overworld",
+    "height": "Low",
+    "year": 2018,
+    "addedIn": "1.13"
+  },
+  {
+    "key": "cold_ocean",
+    "name": "Cold Ocean",
+    "climate": "Cold",
+    "precipitation": "Rain",
+    "dimension": "Overworld",
+    "height": "Low",
+    "year": 2018,
+    "addedIn": "1.13"
+  },
+  {
+    "key": "deep_ocean",
+    "name": "Deep Ocean",
+    "climate": "Temperate",
+    "precipitation": "Rain",
+    "dimension": "Overworld",
+    "height": "Low",
+    "year": 2013,
+    "addedIn": "1.7"
+  },
+  {
+    "key": "deep_lukewarm_ocean",
+    "name": "Deep Lukewarm Ocean",
+    "climate": "Warm",
+    "precipitation": "Rain",
+    "dimension": "Overworld",
+    "height": "Low",
+    "year": 2018,
+    "addedIn": "1.13"
+  },
+  {
+    "key": "deep_cold_ocean",
+    "name": "Deep Cold Ocean",
+    "climate": "Cold",
+    "precipitation": "Rain",
+    "dimension": "Overworld",
+    "height": "Low",
+    "year": 2018,
+    "addedIn": "1.13"
+  },
+  {
+    "key": "deep_frozen_ocean",
+    "name": "Deep Frozen Ocean",
+    "climate": "Cold",
+    "precipitation": "Snow",
+    "dimension": "Overworld",
+    "height": "Low",
+    "year": 2018,
+    "addedIn": "1.13"
+  },
+  {
+    "key": "nether_wastes",
+    "name": "Nether Wastes",
+    "climate": "Hot",
+    "precipitation": "None",
+    "dimension": "Nether",
+    "height": "Medium",
+    "year": 2011,
+    "addedIn": "1.0"
+  },
+  {
+    "key": "small_end_islands",
+    "name": "Small End Islands",
+    "climate": "Cold",
+    "precipitation": "None",
+    "dimension": "End",
+    "height": "High",
+    "year": 2011,
+    "addedIn": "1.0"
+  },
+  {
+    "key": "end_midlands",
+    "name": "End Midlands",
+    "climate": "Cold",
+    "precipitation": "None",
+    "dimension": "End",
+    "height": "High",
+    "year": 2011,
+    "addedIn": "1.0"
+  },
+  {
+    "key": "end_barrens",
+    "name": "End Barrens",
+    "climate": "Cold",
+    "precipitation": "None",
+    "dimension": "End",
+    "height": "High",
+    "year": 2011,
+    "addedIn": "1.0"
+  }
+]

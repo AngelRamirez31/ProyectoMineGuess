@@ -82,6 +82,45 @@ app.MapGet("/api/v1/blocks", async (AppDb db, int page, int page_size, string? s
     return Results.Ok(new { items, total });
 });
 
+
+
+app.MapGet("/api/v1/biomes", async (AppDb db, int page, int page_size, string? search, string? dimension) =>
+{
+    if (page <= 0) page = 1;
+    if (page_size <= 0 || page_size > 500) page_size = 500;
+
+    var q = db.Biomes
+        .Include(b => b.AddedInVersion)
+        .AsQueryable();
+
+    if (!string.IsNullOrWhiteSpace(search))
+        q = q.Where(b => EF.Functions.Like(b.Name, $"%{search}%") || EF.Functions.Like(b.Key, $"%{search}%"));
+
+    if (!string.IsNullOrWhiteSpace(dimension))
+        q = q.Where(b => b.Dimension == dimension);
+
+    var total = await q.CountAsync();
+
+    var items = await q
+        .OrderBy(b => b.Name)
+        .Skip((page - 1) * page_size)
+        .Take(page_size)
+        .Select(b => new
+        {
+            b.Key,
+            b.Name,
+            b.Climate,
+            b.Precipitation,
+            b.Dimension,
+            b.Height,
+            b.ReleaseYear,
+            AddedInVersion = b.AddedInVersion != null ? b.AddedInVersion.Name : null
+        })
+        .ToListAsync();
+
+    return Results.Ok(new { items, total });
+});
+
 app.MapGet("/api/v1/entities", async (AppDb db, int page, int page_size, string? search, string? dimension, string? max_version) =>
 {
     if (page <= 0) page = 1;
@@ -131,6 +170,16 @@ app.MapGet("/api/v1/suggest", async (AppDb db, string type, string q) =>
     if (type == "block")
     {
         var s = await db.Blocks
+            .Where(b => b.Name.Contains(q) || b.Key.Contains(q))
+            .OrderBy(b => b.Name)
+            .Take(10)
+            .Select(b => new { b.Key, b.Name })
+            .ToListAsync();
+        return Results.Ok(s);
+    }
+    else if (type == "biome")
+    {
+        var s = await db.Biomes
             .Where(b => b.Name.Contains(q) || b.Key.Contains(q))
             .OrderBy(b => b.Name)
             .Take(10)

@@ -8,10 +8,10 @@ namespace MVP_ProyectoFinal.Controllers
     {
         public IActionResult Index()
         {
-            if (HttpContext.Session.GetString("EntidadGanado") == "true")
+            if (HttpContext.Session.GetString("EntidadGanado") == "true" && TempData["MensajeVictoria"] == null)
             {
                 var nombreSecreto = HttpContext.Session.GetString("EntidadSecreta");
-                TempData["MensajeVictoria"] = $"¡Adivinaste la entidad! Era: {nombreSecreto}";
+                TempData["MensajeVictoria"] = "You guessed the entity! It was: " + nombreSecreto;
             }
             else
             {
@@ -42,64 +42,106 @@ namespace MVP_ProyectoFinal.Controllers
 
             if (todosLosIntentos.Any(intento => intento.NombreEntidad.Equals(nombreEntidad, StringComparison.OrdinalIgnoreCase)))
             {
-                TempData["Error"] = $"Ya intentaste con '{nombreEntidad}'. Prueba con otra.";
+                TempData["Error"] = $"You already tried '{nombreEntidad}'. Try another entity.";
                 return RedirectToAction("Index");
             }
 
             var entidadIntentada = RepositorioEntidades.ObtenerPorNombre(nombreEntidad);
             if (entidadIntentada == null)
             {
-                TempData["Error"] = "Esa entidad no existe. Intenta con otra.";
+                TempData["Error"] = "That entity does not exist in the game. Try another entity.";
                 return RedirectToAction("Index");
             }
 
             var entidadSecreta = RepositorioEntidades.ObtenerPorNombre(nombreSecreto);
             if (entidadSecreta == null)
             {
-                TempData["Error"] = "Error crítico. Empezando de nuevo.";
+                TempData["Error"] = "Critical error. Starting again.";
                 return RedirectToAction("Reiniciar");
             }
 
-            
             var longitudNombreIntentado = entidadIntentada.Nombre.Replace(" ", "").Length;
             var longitudNombreSecreto = entidadSecreta.Nombre.Replace(" ", "").Length;
             var coincideInicial = entidadIntentada.Nombre.Length > 0
                 && entidadSecreta.Nombre.Length > 0
                 && char.ToUpperInvariant(entidadIntentada.Nombre[0]) == char.ToUpperInvariant(entidadSecreta.Nombre[0]);
 
+            var colorTipo = entidadIntentada.Tipo == entidadSecreta.Tipo ? "verde" : "rojo";
+            var colorVida = entidadIntentada.Vida == entidadSecreta.Vida ? "verde" : "rojo";
+            var colorAtaque = entidadIntentada.Ataque == entidadSecreta.Ataque ? "verde" : "rojo";
+            var colorDimension = entidadIntentada.Dimension == entidadSecreta.Dimension ? "verde" : "rojo";
+            var colorAnio = entidadIntentada.YearLanzamiento == entidadSecreta.YearLanzamiento ? "verde" : "rojo";
+            var colorLongitud = longitudNombreIntentado == longitudNombreSecreto ? "verde" : "rojo";
+            var colorInicial = coincideInicial ? "verde" : "rojo";
+
+            var hintVida = string.Empty;
+            if (entidadIntentada.Vida != entidadSecreta.Vida)
+            {
+                if (entidadIntentada.Vida < entidadSecreta.Vida) hintVida = " ▲ more health";
+                else if (entidadIntentada.Vida > entidadSecreta.Vida) hintVida = " ▼ less health";
+            }
+
+            var hintAtaque = string.Empty;
+            if (entidadIntentada.Ataque != entidadSecreta.Ataque)
+            {
+                if (entidadIntentada.Ataque < entidadSecreta.Ataque) hintAtaque = " ▲ more attack";
+                else if (entidadIntentada.Ataque > entidadSecreta.Ataque) hintAtaque = " ▼ less attack";
+            }
+
+            var hintAnio = string.Empty;
+            if (entidadIntentada.YearLanzamiento != entidadSecreta.YearLanzamiento)
+            {
+                if (entidadIntentada.YearLanzamiento < entidadSecreta.YearLanzamiento) hintAnio = " ▲ newer version";
+                else if (entidadIntentada.YearLanzamiento > entidadSecreta.YearLanzamiento) hintAnio = " ▼ older version";
+            }
+
+            var hintLongitud = string.Empty;
+            if (longitudNombreIntentado < longitudNombreSecreto) hintLongitud = " ▲ longer name";
+            else if (longitudNombreIntentado > longitudNombreSecreto) hintLongitud = " ▼ shorter name";
+
             var resultado = new ResultadoIntentoEntidadVM
             {
                 NombreEntidad = entidadIntentada.Nombre,
                 Tipo = entidadIntentada.Tipo,
-                ColorTipo = entidadIntentada.Tipo == entidadSecreta.Tipo ? "verde" : "rojo",
                 Vida = entidadIntentada.Vida,
-                ColorVida = entidadIntentada.Vida == entidadSecreta.Vida ? "verde" : "rojo",
-                HintVida = entidadIntentada.Vida < entidadSecreta.Vida ? "▲" : (entidadIntentada.Vida > entidadSecreta.Vida ? "▼" : ""),
                 Ataque = entidadIntentada.Ataque,
-                ColorAtaque = entidadIntentada.Ataque == entidadSecreta.Ataque ? "verde" : "rojo",
-                HintAtaque = entidadIntentada.Ataque < entidadSecreta.Ataque ? "▲" : (entidadIntentada.Ataque > entidadSecreta.Ataque ? "▼" : ""),
                 Dimension = entidadIntentada.Dimension,
-                ColorDimension = entidadIntentada.Dimension == entidadSecreta.Dimension ? "verde" : "rojo",
                 YearLanzamiento = entidadIntentada.YearLanzamiento,
-                ColorAnio = entidadIntentada.YearLanzamiento == entidadSecreta.YearLanzamiento ? "verde" : "rojo",
-                HintAnio = entidadIntentada.YearLanzamiento < entidadSecreta.YearLanzamiento ? "▲" : (entidadIntentada.YearLanzamiento > entidadSecreta.YearLanzamiento ? "▼" : ""),
                 LongitudNombre = longitudNombreIntentado,
-                CoincideInicial = coincideInicial ? "Sí" : "No",
-                ColorLongitudNombre = longitudNombreIntentado == longitudNombreSecreto ? "verde" : "rojo",
-                ColorCoincideInicial = coincideInicial ? "verde" : "rojo",
-                HintLongitudNombre = longitudNombreIntentado < longitudNombreSecreto ? "▲" : (longitudNombreIntentado > longitudNombreSecreto ? "▼" : "")
+                CoincideInicial = coincideInicial ? "Yes" : "No",
+                ColorLongitudNombre = colorLongitud,
+                ColorCoincideInicial = colorInicial,
+                HintLongitudNombre = hintLongitud,
+                ColorTipo = colorTipo,
+                ColorVida = colorVida,
+                ColorAtaque = colorAtaque,
+                ColorDimension = colorDimension,
+                ColorAnio = colorAnio,
+                HintVida = hintVida,
+                HintAtaque = hintAtaque,
+                HintAnio = hintAnio
             };
-
 
             todosLosIntentos.Add(resultado);
             HttpContext.Session.SetString("IntentosEntidad", JsonSerializer.Serialize(todosLosIntentos));
 
             if (entidadIntentada.Nombre.Equals(entidadSecreta.Nombre, StringComparison.OrdinalIgnoreCase))
             {
-                TempData["MensajeVictoria"] = $"¡Adivinaste la entidad! Era: {entidadSecreta.Nombre}";
+                TempData["MensajeVictoria"] = $"You guessed the entity! It was: {entidadSecreta.Nombre}";
                 HttpContext.Session.SetString("EntidadGanado", "true");
             }
 
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public IActionResult GiveUp()
+        {
+            var nombreSecreto = HttpContext.Session.GetString("EntidadSecreta");
+            if (string.IsNullOrEmpty(nombreSecreto)) return RedirectToAction("Reiniciar");
+
+            HttpContext.Session.SetString("EntidadGanado", "true");
+            TempData["MensajeVictoria"] = "You gave up. The entity was: " + nombreSecreto;
             return RedirectToAction("Index");
         }
 

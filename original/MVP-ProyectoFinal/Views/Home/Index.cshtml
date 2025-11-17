@@ -1,14 +1,15 @@
-﻿@{
-    ViewData["Title"] = "Página de Inicio";
+@{
+    ViewData["Title"] = "Home";
 }
 
 <div class="text-center">
-    <h1 class="display-4">¡MineGuess!</h1>
+    <h1 class="display-4">MineGuess</h1>
     <p class="mt-4">
-        ¿Estás listo para poner a prueba tu conocimiento de Minecraft?
+        Are you ready to test your Minecraft knowledge?
     </p>
-    <p>
-        <a class="btn btn-primary btn-lg" href="/Juego">¡Comenzar a Jugar!</a>
-    </p>
+    <div class="mt-4 d-flex justify-content-center flex-wrap gap-3">
+        <a class="btn btn-primary btn-lg" asp-controller="Juego" asp-action="Index">Blocks Mode</a>
+        <a class="btn btn-success btn-lg" asp-controller="Entidad" asp-action="Index">Entities Mode</a>
+        <a class="btn btn-warning btn-lg" asp-controller="Bioma" asp-action="Index">Biomes Mode</a>
+    </div>
 </div>
-

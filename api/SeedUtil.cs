@@ -39,17 +39,44 @@ public static class SeedUtil
         db.Dimensions.AddRange(dims);
         await db.SaveChangesAsync();
 
-        var biomes = Array.Empty<Biome>();
-        if (!await db.Biomes.AnyAsync())
-        {
-            db.Biomes.AddRange(biomes);
-            await db.SaveChangesAsync();
-        }
-
         var contentRoot = env.ContentRootPath;
         var seedDir = Path.Combine(contentRoot, "seed");
         var blocksPath = Path.Combine(seedDir, "blocks.json");
         var entitiesPath = Path.Combine(seedDir, "entities.json");
+        var biomesPath = Path.Combine(seedDir, "biomes.json");
+
+        if (File.Exists(biomesPath) && !await db.Biomes.AnyAsync())
+        {
+            var jsonBiomes = await File.ReadAllTextAsync(biomesPath);
+            var seeds = JsonSerializer.Deserialize<List<BiomeSeed>>(jsonBiomes, new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            }) ?? new List<BiomeSeed>();
+
+            var biomeEntities = new List<Biome>();
+
+            foreach (var s in seeds)
+            {
+                var ver = versions.FirstOrDefault(v => v.Name == s.addedIn);
+
+                var b = new Biome
+                {
+                    Key = s.key,
+                    Name = s.name,
+                    Climate = s.climate,
+                    Precipitation = s.precipitation,
+                    Dimension = s.dimension,
+                    Height = s.height,
+                    ReleaseYear = s.year,
+                    AddedInVersionId = ver != null ? ver.Id : (int?)null
+                };
+                biomeEntities.Add(b);
+            }
+
+            db.Biomes.AddRange(biomeEntities);
+            await db.SaveChangesAsync();
+        }
+
 
         if (File.Exists(blocksPath))
         {

@@ -40,7 +40,15 @@ namespace MVP_ProyectoFinal.Models
             new Bloque { Nombre = "Ladrillos", Version = "Alpha 1.0.11", Bioma = "Crafteable", EsCrafteable = true, EsDeExterior = true, YearLanzamiento = 2010 },
             new Bloque { Nombre = "Librería", Version = "Alpha 1.2.0", Bioma = "Crafteable", EsCrafteable = true, EsDeExterior = true, YearLanzamiento = 2010 },
             new Bloque { Nombre = "Caldero", Version = "Beta 1.8", Bioma = "Crafteable", EsCrafteable = true, EsDeExterior = true, YearLanzamiento = 2011 },
-            new Bloque { Nombre = "Hojas de Roble", Version = "Alpha 1.0", Bioma = "Bosque", EsCrafteable = true, EsDeExterior = true, YearLanzamiento = 2009 }
+            new Bloque { Nombre = "Hojas de Roble", Version = "Alpha 1.0", Bioma = "Bosque", EsCrafteable = true, EsDeExterior = true, YearLanzamiento = 2009 },
+            new Bloque { Nombre = "Pistón", Version = "1.0", Bioma = "Cueva", EsCrafteable = true, EsDeExterior = false, YearLanzamiento = 2011 },
+            new Bloque { Nombre = "Pistón pegajoso", Version = "1.0", Bioma = "Cueva", EsCrafteable = true, EsDeExterior = false, YearLanzamiento = 2011 },
+            new Bloque { Nombre = "Soporte para pociones", Version = "1.0", Bioma = "Nether", EsCrafteable = true, EsDeExterior = false, YearLanzamiento = 2011 },
+            new Bloque { Nombre = "Cofre trampa", Version = "1.5", Bioma = "Cueva", EsCrafteable = true, EsDeExterior = false, YearLanzamiento = 2013 },
+            new Bloque { Nombre = "Comparador de redstone", Version = "1.5", Bioma = "Cueva", EsCrafteable = true, EsDeExterior = false, YearLanzamiento = 2013 },
+            new Bloque { Nombre = "Sensor de luz solar", Version = "1.5", Bioma = "Pradera", EsCrafteable = true, EsDeExterior = true, YearLanzamiento = 2013 },
+            new Bloque { Nombre = "Observador", Version = "1.11", Bioma = "Cueva", EsCrafteable = true, EsDeExterior = false, YearLanzamiento = 2016 },
+
         };
 
         public static Bloque? ObtenerPorNombre(string nombre)

@@ -21,6 +21,7 @@ var useApi = builder.Configuration.GetSection("Api").GetValue<bool>("UseApi");
 var apiBase = builder.Configuration.GetSection("Api").GetValue<string>("ApiBaseUrl");
 RepositorioBloques.ConfigurarApi(useApi, apiBase);
 RepositorioEntidades.ConfigurarApi(useApi, apiBase);
+RepositorioBiomas.ConfigurarApi(useApi, apiBase);
 
 if (!app.Environment.IsDevelopment())
 {

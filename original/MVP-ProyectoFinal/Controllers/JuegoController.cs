@@ -8,10 +8,10 @@ namespace MVP_ProyectoFinal.Controllers
     {
         public IActionResult Index()
         {
-            if (HttpContext.Session.GetString("JuegoGanado") == "true")
+            if (HttpContext.Session.GetString("JuegoGanado") == "true" && TempData["MensajeVictoria"] == null)
             {
                 var nombreSecreto = HttpContext.Session.GetString("BloqueSecreto");
-                TempData["MensajeVictoria"] = $"¡Felicidades, adivinaste el bloque! Era: {nombreSecreto}";
+                TempData["MensajeVictoria"] = "You guessed the block! It was: " + nombreSecreto;
             }
             else
             {
@@ -42,53 +42,101 @@ namespace MVP_ProyectoFinal.Controllers
 
             if (todosLosIntentos.Any(intento => intento.NombreBloque.Equals(nombreBloque, StringComparison.OrdinalIgnoreCase)))
             {
-                TempData["Error"] = $"Ya intentaste con '{nombreBloque}'. Prueba con otro.";
+                TempData["Error"] = $"You already tried '{nombreBloque}'. Try another block.";
                 return RedirectToAction("Index");
             }
 
             var bloqueIntentado = RepositorioBloques.ObtenerPorNombre(nombreBloque);
             if (bloqueIntentado == null)
             {
-                TempData["Error"] = "Ese bloque no existe. Intenta con otro.";
+                TempData["Error"] = "That block does not exist in the game. Try another block.";
                 return RedirectToAction("Index");
             }
 
             var bloqueSecreto = RepositorioBloques.ObtenerPorNombre(nombreSecreto);
             if (bloqueSecreto == null)
             {
-                TempData["Error"] = "Error crítico. Empezando de nuevo.";
+                TempData["Error"] = "Critical error. Starting again.";
                 return RedirectToAction("Reiniciar");
             }
 
             var valorVersionIntentada = VersionComparer.ObtenerValor(bloqueIntentado.Version);
             var valorVersionSecreta = VersionComparer.ObtenerValor(bloqueSecreto.Version);
+
             var longitudNombreIntentado = bloqueIntentado.Nombre.Replace(" ", "").Length;
             var longitudNombreSecreto = bloqueSecreto.Nombre.Replace(" ", "").Length;
-            var coincideInicial = bloqueIntentado.Nombre.Length > 0 && bloqueSecreto.Nombre.Length > 0 && char.ToUpperInvariant(bloqueIntentado.Nombre[0]) == char.ToUpperInvariant(bloqueSecreto.Nombre[0]);
+            var coincideInicial = bloqueIntentado.Nombre.Length > 0
+                && bloqueSecreto.Nombre.Length > 0
+                && char.ToUpperInvariant(bloqueIntentado.Nombre[0]) == char.ToUpperInvariant(bloqueSecreto.Nombre[0]);
 
+            var colorVersion = string.Equals(bloqueIntentado.Version.Trim(), bloqueSecreto.Version.Trim(), StringComparison.OrdinalIgnoreCase) ? "verde" : "rojo";
+            var colorBioma = bloqueIntentado.Bioma == bloqueSecreto.Bioma ? "verde" : "rojo";
+            var colorCrafteable = bloqueIntentado.EsCrafteable == bloqueSecreto.EsCrafteable ? "verde" : "rojo";
+            var colorExterior = bloqueIntentado.EsDeExterior == bloqueSecreto.EsDeExterior ? "verde" : "rojo";
+            var colorLongitud = longitudNombreIntentado == longitudNombreSecreto ? "verde" : "rojo";
+            var colorInicial = coincideInicial ? "verde" : "rojo";
+            var colorAnio = bloqueIntentado.YearLanzamiento == bloqueSecreto.YearLanzamiento ? "verde" : "rojo";
+
+            var hintVersion = string.Empty;
+            if (!string.Equals(bloqueIntentado.Version.Trim(), bloqueSecreto.Version.Trim(), StringComparison.OrdinalIgnoreCase))
+            {
+                if (valorVersionIntentada < valorVersionSecreta) hintVersion = " ▲ newer version";
+                else if (valorVersionIntentada > valorVersionSecreta) hintVersion = " ▼ older version";
+            }
+
+            var colorFuncion = string.Empty;
+            var hintFuncion = string.Empty;
+            if (!string.IsNullOrWhiteSpace(bloqueIntentado.Funcion) && !string.IsNullOrWhiteSpace(bloqueSecreto.Funcion))
+            {
+                if (string.Equals(bloqueIntentado.Funcion.Trim(), bloqueSecreto.Funcion.Trim(), StringComparison.OrdinalIgnoreCase))
+                {
+                    colorFuncion = "verde";
+                }
+                else
+                {
+                    colorFuncion = "rojo";
+                }
+                hintFuncion = bloqueIntentado.Funcion;
+            }
+            else if (!string.IsNullOrWhiteSpace(bloqueIntentado.Funcion))
+            {
+                hintFuncion = bloqueIntentado.Funcion;
+            }
+
+            var hintLongitud = string.Empty;
+            if (longitudNombreIntentado < longitudNombreSecreto) hintLongitud = " ▲ longer name";
+            else if (longitudNombreIntentado > longitudNombreSecreto) hintLongitud = " ▼ shorter name";
+
+            var hintAnio = string.Empty;
+            if (bloqueIntentado.YearLanzamiento != bloqueSecreto.YearLanzamiento)
+            {
+                if (bloqueIntentado.YearLanzamiento < bloqueSecreto.YearLanzamiento) hintAnio = " ▲ newer version";
+                else if (bloqueIntentado.YearLanzamiento > bloqueSecreto.YearLanzamiento) hintAnio = " ▼ older version";
+            }
 
             var resultado = new ResultadoIntentoVM
             {
                 NombreBloque = bloqueIntentado.Nombre,
                 Version = bloqueIntentado.Version,
                 Funcion = bloqueIntentado.Funcion,
-                ColorVersion = string.Equals(bloqueIntentado.Version.Trim(), bloqueSecreto.Version.Trim(), StringComparison.OrdinalIgnoreCase) ? "verde" : "rojo",
-                HintVersion = valorVersionIntentada < valorVersionSecreta ? "▲" : (valorVersionIntentada > valorVersionSecreta ? "▼" : ""),
-                HintFuncion = string.IsNullOrWhiteSpace(bloqueIntentado.Funcion) ? string.Empty : $" ({bloqueIntentado.Funcion})",
                 Bioma = bloqueIntentado.Bioma,
-                ColorBioma = bloqueIntentado.Bioma == bloqueSecreto.Bioma ? "verde" : "rojo",
-                EsCrafteable = bloqueIntentado.EsCrafteable ? "Sí" : "No",
-                ColorCrafteable = bloqueIntentado.EsCrafteable == bloqueSecreto.EsCrafteable ? "verde" : "rojo",
-                EsDeExterior = bloqueIntentado.EsDeExterior ? "Sí" : "No",
-                ColorExterior = bloqueIntentado.EsDeExterior == bloqueSecreto.EsDeExterior ? "verde" : "rojo",
+                EsCrafteable = bloqueIntentado.EsCrafteable ? "Yes" : "No",
+                EsDeExterior = bloqueIntentado.EsDeExterior ? "Yes" : "No",
                 YearLanzamiento = bloqueIntentado.YearLanzamiento,
                 LongitudNombre = longitudNombreIntentado,
-                CoincideInicial = coincideInicial ? "Sí" : "No",
-                ColorLongitudNombre = longitudNombreIntentado == longitudNombreSecreto ? "verde" : "rojo",
-                ColorCoincideInicial = coincideInicial ? "verde" : "rojo",
-                HintLongitudNombre = longitudNombreIntentado < longitudNombreSecreto ? "▲" : (longitudNombreIntentado > longitudNombreSecreto ? "▼" : ""),
-                ColorAnio = bloqueIntentado.YearLanzamiento == bloqueSecreto.YearLanzamiento ? "verde" : "rojo",
-                HintAnio = bloqueIntentado.YearLanzamiento < bloqueSecreto.YearLanzamiento ? "▲" : (bloqueIntentado.YearLanzamiento > bloqueSecreto.YearLanzamiento ? "▼" : "")
+                CoincideInicial = coincideInicial ? "Yes" : "No",
+                ColorLongitudNombre = colorLongitud,
+                ColorCoincideInicial = colorInicial,
+                HintLongitudNombre = hintLongitud,
+                ColorVersion = colorVersion,
+                ColorFuncion = colorFuncion,
+                ColorBioma = colorBioma,
+                ColorCrafteable = colorCrafteable,
+                ColorExterior = colorExterior,
+                ColorAnio = colorAnio,
+                HintVersion = hintVersion,
+                HintFuncion = hintFuncion,
+                HintAnio = hintAnio
             };
 
             todosLosIntentos.Add(resultado);
@@ -96,10 +144,21 @@ namespace MVP_ProyectoFinal.Controllers
 
             if (bloqueIntentado.Nombre.Equals(bloqueSecreto.Nombre, StringComparison.OrdinalIgnoreCase))
             {
-                TempData["MensajeVictoria"] = $"¡Felicidades, adivinaste el bloque! Era: {bloqueSecreto.Nombre}";
+                TempData["MensajeVictoria"] = $"You guessed the block! It was: {bloqueSecreto.Nombre}";
                 HttpContext.Session.SetString("JuegoGanado", "true");
             }
 
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public IActionResult GiveUp()
+        {
+            var nombreSecreto = HttpContext.Session.GetString("BloqueSecreto");
+            if (string.IsNullOrEmpty(nombreSecreto)) return RedirectToAction("Reiniciar");
+
+            HttpContext.Session.SetString("JuegoGanado", "true");
+            TempData["MensajeVictoria"] = "You gave up. The block was: " + nombreSecreto;
             return RedirectToAction("Index");
         }
 

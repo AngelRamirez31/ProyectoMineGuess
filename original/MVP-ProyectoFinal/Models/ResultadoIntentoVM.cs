@@ -15,6 +15,7 @@
         public string ColorCoincideInicial { get; set; } = string.Empty;
         public string HintLongitudNombre { get; set; } = string.Empty;
         public string ColorVersion { get; set; } = string.Empty;
+        public string ColorFuncion { get; set; } = string.Empty;
         public string ColorBioma { get; set; } = string.Empty;
         public string ColorCrafteable { get; set; } = string.Empty;
         public string ColorExterior { get; set; } = string.Empty;
