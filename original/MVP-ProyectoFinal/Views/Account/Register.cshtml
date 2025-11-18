@@ -1,0 +1,37 @@
+@model MVP_ProyectoFinal.Models.RegisterViewModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<div class="page-shell">
+    <div class="game-container auth-container">
+        <h1 class="game-title auth-header">Create account</h1>
+        <p class="auth-subtitle">Choose a player name and password.</p>
+
+        <form asp-action="Register" method="post" class="auth-form">
+            <div class="mb-3">
+                <label asp-for="UserName" class="auth-label"></label>
+                <input asp-for="UserName" class="form-control auth-input" />
+                <span asp-validation-for="UserName" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Password" class="auth-label"></label>
+                <input asp-for="Password" class="form-control auth-input" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="ConfirmPassword" class="auth-label"></label>
+                <input asp-for="ConfirmPassword" class="form-control auth-input" />
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <button type="submit" class="btn btn-auth-main">Register</button>
+            </div>
+            <div class="auth-switch">
+                <span>Already have an account?</span>
+                <a asp-action="Login" class="auth-link-inline">Log in</a>
+            </div>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        </form>
+    </div>
+</div>

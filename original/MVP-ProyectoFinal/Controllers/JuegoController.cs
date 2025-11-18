@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using MVP_ProyectoFinal.Models;
 using System.Text.Json;
 
 namespace MVP_ProyectoFinal.Controllers
 {
+    [Authorize]
     public class JuegoController : Controller
     {
         public IActionResult Index()

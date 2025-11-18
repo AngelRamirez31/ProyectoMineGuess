@@ -1,4 +1,5 @@
 using MVP_ProyectoFinal.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var contentRoot = Directory.GetCurrentDirectory();
 var webRoot = Path.Combine(contentRoot, "wwwroot");
@@ -7,6 +8,15 @@ Directory.CreateDirectory(webRoot);
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Account/Login";
+        options.LogoutPath = "/Account/Logout";
+        options.AccessDeniedPath = "/Account/Login";
+    });
+
 
 builder.Services.AddSession(options =>
 {
@@ -34,6 +44,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseSession();

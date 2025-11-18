@@ -1,0 +1,34 @@
+@model MVP_ProyectoFinal.Models.LoginViewModel
+@{
+    ViewData["Title"] = "Log in";
+}
+
+<div class="page-shell">
+    <div class="game-container auth-container">
+        <h1 class="game-title auth-header">Log in</h1>
+        <p class="auth-subtitle">Enter your player name to start guessing.</p>
+
+        <form asp-action="Login" method="post" class="auth-form">
+            <input type="hidden" name="returnUrl" value="@(Model == null ? string.Empty : Model.ReturnUrl)" />
+            <div class="mb-3">
+                <label class="auth-label" for="userName">UserName</label>
+                <input id="userName" name="userName" value="@(Model == null ? string.Empty : Model.UserName)" class="form-control auth-input" />
+            </div>
+            <div class="mb-3">
+                <label class="auth-label" for="password">Password</label>
+                <input id="password" name="password" type="password" class="form-control auth-input" />
+            </div>
+            @if (ViewData["LoginError"] != null)
+            {
+                <div class="text-danger mb-2">@ViewData["LoginError"]</div>
+            }
+            <div class="mb-3">
+                <button type="submit" class="btn btn-auth-main">Log in</button>
+            </div>
+            <div class="auth-switch">
+                <span>New here?</span>
+                <a asp-action="Register" class="auth-link-inline">Create an account</a>
+            </div>
+        </form>
+    </div>
+</div>
