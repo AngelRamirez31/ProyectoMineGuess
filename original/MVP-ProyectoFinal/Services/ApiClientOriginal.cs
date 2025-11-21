@@ -229,15 +229,47 @@ public class ApiClientOriginal
         }
     }
 
+        private static readonly HashSet<string> NonCraftableBlockKeys = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+    {
+        "stone",
+        "grass_block",
+        "dirt",
+        "sand",
+        "gravel",
+        "clay",
+        "ice",
+        "bedrock",
+        "cactus",
+        "pumpkin",
+        "brown_mushroom",
+        "red_mushroom",
+        "vines",
+        "melon_block",
+        "lily_pad",
+        "sugar_cane",
+        "netherrack",
+        "soul_sand",
+        "end_stone",
+        "ancient_debris",
+        "obsidian",
+        "farmland"
+    };
+
     private static bool IsCraftable(BlockDto b)
     {
         var key = (b.Key ?? string.Empty).ToLowerInvariant();
         var category = (b.Category ?? string.Empty).ToLowerInvariant();
 
+        if (NonCraftableBlockKeys.Contains(key))
+            return false;
+
+        if (string.Equals(key, "wool_colors", StringComparison.OrdinalIgnoreCase))
+            return true;
+
         if (category == "ore" || key.Contains("ore"))
             return false;
 
-        if (category == "decorative" || category == "functional" || category == "light" || category == "redstone" || category == "storage")
+        if (category == "decorative" || category == "functional" || category == "light" || category == "redstone" || category == "storage" || category == "technical" || category == "utility")
             return true;
 
         if (string.IsNullOrEmpty(category))
@@ -249,7 +281,7 @@ public class ApiClientOriginal
         return false;
     }
 
-    private static bool IsExterior(BlockDto b)
+private static bool IsExterior(BlockDto b)
     {
         var dimension = b.Dimension;
         if (!string.Equals(dimension, "overworld", StringComparison.OrdinalIgnoreCase))
